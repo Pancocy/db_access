@@ -1,7 +1,7 @@
 use std::sync::Mutex;
 use sqlx::PgPool;
 use sqlx::types::chrono::NaiveDate;
-use serde;
+use serde::{Deserialize, Serialize};
 
 #[allow(warnings, unused)]
 pub struct AppState{
@@ -10,17 +10,22 @@ pub struct AppState{
     pub db:PgPool
 }
 
-#[derive(serde::Serialize)]
+#[derive(Deserialize,Serialize,Debug)]
 pub struct Course{
     pub id:i32,
     pub teacher_id:i32,
     pub course_name:String,
     pub date:Option<NaiveDate>
 }
-#[derive(serde::Serialize)]
+#[derive(Deserialize,Serialize,Debug)]
 pub struct Record{
     pub  id:i32,
     pub  teacher_id:Option<i32>,
     pub  name: Option<String>,
     pub  date:Option<NaiveDate>
+}
+#[derive(Deserialize,Serialize,Debug)]
+pub struct InsertStatus{
+    pub status:String,
+    pub course_name:String
 }
