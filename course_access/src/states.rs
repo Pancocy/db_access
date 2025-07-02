@@ -17,6 +17,8 @@ pub struct Course {
     pub course_name: String,
     pub date: Option<NaiveDate>,
 }
+//Record中一些成员为Option的原因：
+//数据库中 这些 字段允许为 NULL，所以在 Rust 中必须用 Option<i32> 来表示它是可选的
 #[derive(Deserialize, Serialize, Debug)]
 pub struct Record {
     pub id: i32,

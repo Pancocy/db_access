@@ -44,6 +44,8 @@ pub async fn get_course_by_id(
     let db = &app_state.db;
     let (cid,) = params.into_inner();
 
+    //sqlx::query!这个宏生成的返回类型（匿名结构体）没有实现 serde::Serialize，所以不能直接用于 .json(rows)
+    //定义实现Serialize 的结构体Record去映射返回的结构体
     let rows = sqlx::query_as!(
         Record,
         r#" select id,teacher_id,name,date from course where id = $1 "#,
@@ -55,7 +57,7 @@ pub async fn get_course_by_id(
 
     HttpResponse::Ok().json(rows)
 }
-//查询某位老师的所有kecheng
+//查询某位老师的所有课程
 pub async fn get_course_by_tid(
     app_state: web::Data<AppState>,
     params: web::Path<(i32,)>,
